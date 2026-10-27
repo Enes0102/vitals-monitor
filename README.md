@@ -1,6 +1,6 @@
 # Vitals
 
-**English** | [Türkçe](README.tr.md)
+**English** | [Türkçe](README.tr.md) dd
 
 A lightweight, colorful system monitor that runs in your terminal. Vitals shows your CPU, memory, disks, network and the busiest processes on a single live-updating dashboard.
 
