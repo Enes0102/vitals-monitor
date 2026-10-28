@@ -1,0 +1,27 @@
+[refresh]
+interval = 1.0
+process_interval = 2.0
+
+[alerts]
+cpu_percent = 90.0
+cpu_seconds = 10
+ram_percent = 85.0
+ram_seconds = 5
+disk_percent = 90.0
+new_listener = true
+suspicious_process = true
+bell = false
+banner_seconds = 30
+
+[logging]
+enabled = true
+directory = "logs"
+record_interval = 5
+process_events = true
+
+[network]
+resolve_hosts = true
+
+[security]
+suspicious_ports = [4444, 1337, 31337, 6667]
+trusted_processes = []
