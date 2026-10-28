@@ -75,6 +75,16 @@ python -m vitals --report
 python -m vitals --report 2026-10-27
 ```
 
+### Sekmeler
+
+| Sekme | Ne gösterir |
+|---|---|
+| **1 Overview** | CPU (toplam ve çekirdek başına), bellek, diskler, ağ ve en yoğun süreçler. `60s` satırları son bir dakikanın mini grafikleridir. Disks panelindeki `busiest`, en çok I/O yapan süreçtir (Windows'ta ağ trafiği de sayılır). |
+| **2 Network** | Her bağlantı: hangi program, hangi uzak IP ve port, hangi durumda. Host sütunu genel IP'nin arkasındaki alan adını gösterir; bu bilgi birkaç saniye içinde dolar. |
+| **3 Security** | Şüpheli süreçler ve neden işaretlendikleri, risk seviyesiyle birlikte tüm açık portlar. |
+| **4 Processes** | Detaylı bir görev yöneticisi: PID, üst süreç, kullanıcı, thread, durum, CPU, bellek, I/O ve çalışma süresi. |
+| **5 Log** | Olan her şey, en yenisi en üstte: uyarılar, güvenlik olayları, açılıp kapanan programlar. |
+
 ### Klavye kısayolları
 
 | Tuş | İşlev |
@@ -91,11 +101,39 @@ python -m vitals --report 2026-10-27
 | `?` | Yardım |
 | `q` | Çıkış |
 
-Detay ekranında: `o` programın klasörünü açar, `c` yolunu kopyalar, `h` SHA-256 özetini hesaplar, `v` VirusTotal'da arar.
-
 ### İzinler
 
 Bazı bilgiler ek yetki gerektirir. Windows'ta sistem süreçlerinin yollarını ve bağlantılarını görmek için terminali yönetici olarak çalıştır. macOS ve Linux'ta diğer kullanıcıların süreçlerine ait bağlantılar için `sudo` gerekir.
+
+## Süreç detayı ve VirusTotal
+
+Bir süreci seçip `Enter`'a basınca dosya yolu, komut satırı, üst süreç, başlama zamanı, açık dosyalar, bağlantılar, dinlediği portlar ve işaretlendiyse nedenleri görünür. Bu ekranda:
+
+| Tuş | İşlev |
+|---|---|
+| `o` | Programın klasörünü açar |
+| `c` | Program yolunu kopyalar |
+| `h` | Program dosyasının SHA-256 özetini hesaplar |
+| `v` | Özeti VirusTotal'da arar |
+
+SHA-256 özeti bir parmak izi gibidir: dosyanın tek bir baytı değişse özet tamamen değişir. [VirusTotal](https://www.virustotal.com) dosyaları 70'ten fazla antivirüs motoruyla tarar. Vitals dosyanın kendisini asla yüklemez; sadece özetin VirusTotal sayfasını açar. Orada dosyanın daha önce taranıp taranmadığını ve kaç motorun zararlı bulduğunu görürsün.
+
+Denemek için: `4`'e bas, `/chrome` ile ara, iki kez `Enter`'a bas, sonra `h`'ye ve birkaç saniye sonra `v`'ye bas.
+
+## Günlük rapor
+
+Vitals çalışırken her 5 saniyede bir CPU, RAM, ağ ve disk değerlerini ve tüm uyarıları kaydeder. Bunları grafikli bir rapora dönüştürmek için:
+
+```bash
+python -m vitals --report              # bugün
+python -m vitals --report 2026-10-27   # belirli bir gün
+```
+
+Raporda kayıt süresi, ortalamalar ve zirveler, gün boyu grafikler, en yoğun beş an ve o günün tüm uyarı ve güvenlik olayları yer alır.
+
+- Rapor sadece Vitals'ın açık olduğu zamanı kapsar. Ne kadar uzun açık kalırsa rapor o kadar dolu olur.
+- `logs` klasörü, Vitals'ı hangi klasörden çalıştırdıysan orada oluşur. Tüm günlerin tek yerde birikmesi için hep aynı klasörden başlat.
+
 
 ## Ayarlar
 

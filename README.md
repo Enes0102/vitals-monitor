@@ -75,6 +75,16 @@ python -m vitals --report
 python -m vitals --report 2026-10-27
 ```
 
+### Tabs
+
+| Tab | What you see |
+|---|---|
+| **1 Overview** | CPU (total and per core), memory, disks, network and the busiest processes. The `60s` rows are mini graphs of the last minute. `busiest` in the Disks panel is the process doing the most I/O (on Windows this also counts network traffic). |
+| **2 Network** | Every connection: which program, which remote IP and port, and its state. The Host column shows the domain behind a public IP, filled in a moment after it appears. |
+| **3 Security** | Suspicious processes with the reasons they were flagged, and every listening port with its risk level. |
+| **4 Processes** | A detailed task manager: PID, parent, user, threads, status, CPU, memory, I/O and age. |
+| **5 Log** | Everything that happened, newest first: alerts, security events, programs starting and exiting. |
+
 ### Keyboard shortcuts
 
 | Key | Action |
@@ -91,11 +101,39 @@ python -m vitals --report 2026-10-27
 | `?` | Help |
 | `q` | Quit |
 
-In the details view: `o` opens the program's folder, `c` copies its path, `h` calculates the SHA-256 hash and `v` looks it up on VirusTotal.
-
 ### Permissions
 
 Some information needs more rights. On Windows, run the terminal as administrator to see the paths and connections of system processes. On macOS and Linux, connections of other users' processes need `sudo`.
+
+## Process details and VirusTotal
+
+Select a process and press `Enter` to see its path, command line, parent, start time, open files, connections, listening ports and, if flagged, why. In this view:
+
+| Key | Action |
+|---|---|
+| `o` | Open the program's folder |
+| `c` | Copy the program path |
+| `h` | Calculate the SHA-256 hash of the program file |
+| `v` | Look the hash up on VirusTotal |
+
+A SHA-256 hash works like a fingerprint: change a single byte of a file and the hash changes completely. [VirusTotal](https://www.virustotal.com) checks files with more than 70 antivirus engines. Vitals never uploads the file itself; it only opens the VirusTotal page for its hash, where you can see whether the file has been scanned before and how many engines flag it.
+
+To try it: press `4`, search `/chrome`, press `Enter` twice, then `h` and a moment later `v`.
+
+## Daily report
+
+While Vitals runs it saves CPU, RAM, network and disk values every 5 seconds, plus every alert. Turn that into a report with charts:
+
+```bash
+python -m vitals --report              # today
+python -m vitals --report 2026-10-27   # a specific day
+```
+
+The report shows how long Vitals recorded, averages and peaks, charts for the whole day, the five busiest moments and every alert and security event of that day.
+
+- The report only covers the time Vitals was running. The longer you leave it open, the more complete the report.
+- The `logs` folder is created in the folder you run Vitals from. Always start it from the same folder to keep all days in one place.
+
 
 ## Configuration
 
